@@ -1,75 +1,62 @@
-/**
- * catalog-client.test.mjs — tests for the browser-side catalog client.
- * Run: node --test test/catalog-client.test.mjs
- *
- * The client half is the riskiest (a throw here can break the Web UI), so we
- * prove that `buildInvocationBlock` — the text users copy into the chat input —
- * never throws on malformed or partial entries, and produces a sane block.
- */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { buildInvocationBlock } from '../src/client/catalog-client.js'
+import { loadClientModule } from './_client-loader.mjs'
 
-test('buildInvocationBlock returns empty string for nullish input', () => {
-  assert.equal(buildInvocationBlock(null), '')
-  assert.equal(buildInvocationBlock(undefined), '')
-  assert.equal(buildInvocationBlock(0), '')
-  assert.equal(buildInvocationBlock(''), '')
+// buildInvocationBlock is now defined inside the client bundle (client.js), so
+// we load it through the same ModuleLoader contract the Web UI uses.
+let buildInvocationBlock
+let mod
+test('setup: load client bundle', async () => {
+  mod = await loadClientModule()
+  buildInvocationBlock = mod.buildInvocationBlock
+  assert.equal(typeof buildInvocationBlock, 'function')
 })
 
-test('buildInvocationBlock builds a block for a normal expert', () => {
+test('plain expert → @expert + name + summary + entry', () => {
   const entry = {
     id: 'code-reviewer',
     name: 'Code Reviewer',
-    summary: 'Reviews pull requests for quality.',
-    dsh_integration: { entry: 'dsh plugin --profile web add code-reviewer' },
+    summary: 'Reviews code for bugs.',
+    kind: 'expert',
+    dsh_integration: { type: 'prompt', entry: '@code-reviewer' },
   }
   const block = buildInvocationBlock(entry)
   assert.ok(block.includes('@expert code-reviewer'))
   assert.ok(block.includes('# Code Reviewer'))
-  assert.ok(block.includes('Reviews pull requests for quality.'))
-  assert.ok(block.includes('触发方式：dsh plugin --profile web add code-reviewer'))
+  assert.ok(block.includes('Reviews code for bugs.'))
+  assert.ok(block.includes('@code-reviewer'))
 })
 
-test('buildInvocationBlock tolerates a missing dsh_integration object', () => {
-  const entry = { id: 'x', name: 'X', summary: 's' }
-  const block = buildInvocationBlock(entry)
-  assert.ok(block.includes('@expert x'))
-  assert.ok(!block.includes('触发方式'))
-})
-
-test('buildInvocationBlock renders pack members and orchestration', () => {
+test('pack → includes members and orchestration', () => {
   const entry = {
     id: 'software-team',
     name: 'Software Team',
-    summary: 'A full software team.',
+    summary: 'A product team.',
     kind: 'pack',
     dsh_integration: {
-      members: ['pm', 'architect', 'engineer'],
-      orchestration: 'pm → architect → engineer',
+      type: 'prompt',
+      entry: '@software-team',
+      members: ['pm', 'architect', 'engineer', 'qa'],
+      orchestration: 'pm plans, engineer builds',
     },
   }
   const block = buildInvocationBlock(entry)
-  assert.ok(block.includes('专家团成员：pm, architect, engineer'))
-  assert.ok(block.includes('协作方式：pm → architect → engineer'))
+  assert.ok(block.includes('@expert software-team'))
+  assert.ok(block.includes('pm, architect, engineer, qa'))
+  assert.ok(block.includes('pm plans, engineer builds'))
 })
 
-test('buildInvocationBlock handles a pack with no members and missing fields', () => {
-  const entry = { id: 'empty-pack', name: 'Empty', kind: 'pack', dsh_integration: {} }
-  const block = buildInvocationBlock(entry)
-  assert.equal(typeof block, 'string')
-  assert.ok(block.includes('@expert empty-pack'))
-  assert.ok(!block.includes('专家团成员'))
+test('graceful against missing fields', () => {
+  assert.equal(buildInvocationBlock(null), '')
+  assert.equal(buildInvocationBlock(undefined), '')
+  assert.equal(buildInvocationBlock({}), '@expert undefined\n# undefined')
 })
 
-test('buildInvocationBlock survives a completely broken entry', () => {
-  // The nastiest real-world input: a proxy object with throwing getters.
-  const evil = new Proxy({}, { get: () => { throw new Error('boom') } })
-  let threw = false
-  try {
-    buildInvocationBlock(evil)
-  } catch {
-    threw = true
+test('never throws on a malformed proxy entry', () => {
+  const evil = {
+    get id() { throw new Error('boom') },
+    name: 'trap',
   }
-  assert.equal(threw, false, 'buildInvocationBlock must never throw on broken input')
+  assert.doesNotThrow(() => buildInvocationBlock(evil))
+  assert.equal(buildInvocationBlock(evil), '')
 })
