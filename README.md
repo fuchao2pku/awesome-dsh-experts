@@ -102,6 +102,11 @@ awesome-dsh-experts/
 │   └── expert-manifest.md    # manifest 规范 + JSON Schema
 ├── scripts/
 │   └── scan.mjs              # 目录扫描器（无外部依赖）
+├── plugin/                   # Phase 2：DSH 专家市场插件（bundle + client）
+│   ├── package.json          # dsh.bundle.patch + dsh.client 声明
+│   ├── cordis.patch.yml      # 插件默认配置（catalogUrl / 槽位等）
+│   ├── src/                  # host.js（Node 半） + client.js（浏览器半）
+│   └── test/                 # 26 项 node --test 用例（无外部依赖）
 └── .github/workflows/
     └── scan.yml              # 定时刷新目录
 ```
@@ -116,12 +121,23 @@ DSH 的「一切皆插件」意味着官方 Web UI 的能力（包括插件市�
 
 ---
 
-## 路线图 / Phase 2：DSH 专家市场插件
+## 路线图 / Phase 2：DSH 专家市场插件 ✅ 已交付
 
-- [ ] 以 DSH bundle + client 插件形式实现，挂载「专家 / 专家团」入口到 Web UI（设置页，类比插件市场）；
-- [ ] 修改输入框，支持引入已安装的专家 / 专家团（参照 WorkBuddy 左侧专家入口 + 输入框引入）；
-- [ ] 消费本仓库的 `catalog.json` 与 `expert.md`，提供浏览、审阅、一键安装到 `dsh` profile；
-- [ ] 安装信任模型参照 marketplace（基于固定 commit 的证据、逐次人工批准）。
+> 实现位于 [`plugin/`](plugin/)，是一个**开箱即用的 DSH bundle + client 插件**。详见 [`plugin/README.md`](plugin/README.md)。
+
+- [x] 以 DSH bundle + client 插件形式实现，挂载「专家 / 专家团」入口到 Web UI（设置页，类比插件市场）；
+- [x] 修改输入框，支持引入已安装的专家 / 专家团（参照 WorkBuddy 左侧专家入口 + 输入框引入，composer 入口为可降级可选能力）；
+- [x] 消费本仓库的 `catalog.json`（并内置 seed 兜底），提供浏览、搜索、审阅、复制到输入框；
+- [x] **加装零崩溃保障**：纯 JS 无构建、可选 peer 依赖、逐功能 try/catch、seed 兜底、composer 槽位双保险、同源 API 守卫；26 项测试全绿。
+- [ ] 安装信任模型参照 marketplace（基于固定 commit 的证据、逐次人工批准）——后续议题。
+
+### 安装 Phase 2 插件
+
+```bash
+dsh plugin --profile web add <path-or-git-url-to>/awesome-dsh-experts/plugin
+```
+
+重启 Web profile 后，在 **设置 → 插件** 中会看到「专家市场」标签页；可选地在聊天输入框出现「专家」入口按钮。
 
 ---
 

@@ -1,0 +1,19 @@
+# DSH Cordis patch contributed by the expert-marketplace bundle.
+# Mounts the host half (same-origin API + agent tools) into the web profile.
+# The browser half is declared via package.json `dsh.client`.
+- insert:
+    - id: expert-marketplace
+      name: dsh-expert-marketplace
+      config:
+        # Catalog source. Defaults to the Awesome DSH Experts repo's generated
+        # catalog.json (GitHub raw). Override with the env var below.
+        catalogUrl: !!js process.env.DSH_EXPERT_MARKETPLACE_CATALOG_URL ?? 'https://raw.githubusercontent.com/fuchao2pku/awesome-dsh-experts/main/catalog.json'
+        maxAgeMs: 172800000
+        timeoutMs: 15000
+        maxBytes: 5000000
+        # Optional composer (chat input) integration. The slot name is
+        # environment-specific; if it does not exist the registration is
+        # swallowed and the Settings tab still works. Set to '' to disable.
+        composerSlot: !!js process.env.DSH_EXPERT_MARKETPLACE_COMPOSER_SLOT ?? 'composer.toolbar'
+        composerIntegration: true
+        agentTools: true
