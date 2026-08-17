@@ -2,12 +2,12 @@
 
 An **out-of-tree DSH bundle** that brings the [Awesome DSH Experts](https://github.com/fuchao2pku/awesome-dsh-experts) catalog (community **experts** and **expert groups**) into the DeepSeek Harness **Web UI** — without any changes to deepseek-harness itself.
 
-> DSH ("everything is a plugin") ships with no first-class "Expert / Expert Group" concept. This bundle fills that gap: a **Settings → Plugins** tab to browse and copy experts, plus an optional **compose-box entry** to inject an installed expert group into the chat.
+> DSH ("everything is a plugin") ships with no first-class "Expert / Expert Group" concept. This bundle fills that gap: a **Settings → section** tab (the same `settings.section` slot the reference **[dshmarket](https://github.com/dsh-market/dsh-market)** client uses) to browse and copy experts, plus an optional **compose-box entry** to inject an installed expert group into the chat.
 
 ## What it does
 
-- **Settings → Plugins tab** — browse the catalog by category/kind, search, view details, and copy a ready-to-paste `@expert <id>` invocation block.
-- **Composer entry (chat input)** — an optional button that opens a picker and copies an expert/group invocation block into the chat input.
+- **Settings → section tab** — browse the catalog by category/kind, search, view details, and copy a ready-to-paste `@expert <id>` invocation block. Registered into the verified `settings.section` slot.
+- **Composer entry (chat input)** — an optional button that opens a picker and copies an expert/group invocation block into the chat input. **Note:** deepseek-harness `0.1.0-rc.6` does not expose a composer input slot, so this entry is expected to silently degrade in that version; the Settings-tab clipboard flow is the working path. The slot is configurable (`DSH_EXPERT_MARKETPLACE_COMPOSER_SLOT`).
 - **Same-origin HTTP API** — `POST /api/expert-marketplace` with methods `bootstrap`, `list`, `detail`, `groups`, `refresh`, `packs`, `packDetail`.
 - **Agent tools** — registers `expert_list` / `expert_detail` tools (best-effort, only when `@deepseek-ai/dsh-tools` is available).
 
@@ -69,7 +69,7 @@ npm test          # runs all suites (node --test, no external deps)
 npm run test:verbose
 ```
 
-26 tests cover: catalog model (parsing/validation/query/grouping), host route
+27 tests cover: catalog model (parsing/validation/query/grouping), host route
 handler (every error path returns structured JSON, never throws), lifecycle
 (`apply()` survives a down network / missing services), client half (`apply()`
 never throws, degrades gracefully when slots/locale/composer are absent, never

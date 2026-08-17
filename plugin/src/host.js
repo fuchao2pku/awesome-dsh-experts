@@ -1,8 +1,8 @@
 /**
  * host.js — DSH Expert Marketplace, HOST half (runs in the Node process).
  *
- * Safety contract (mirrors dsh-plugin-marketplace, hardened for "never crash
- * on install"):
+ * Safety contract (mirrors the reference `dshmarket` client integration,
+ * hardened for "never crash on install"):
  *  - `apply()` swallows all errors internally; a broken catalog or missing
  *    service degrades the plugin but never takes down the host.
  *  - The API route handler wraps every request in try/catch and answers with a

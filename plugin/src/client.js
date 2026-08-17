@@ -17,17 +17,22 @@
  *    plugin can never hard-crash the Web UI if react were somehow unavailable —
  *    at worst DSH reports a render failure on the tab only.
  *  - `apply()` is feature-by-feature try/catch. The Settings tab uses the
- *    VERIFIED slot `settings.plugins.tab` (mirrored from dsh-plugin-marketplace).
+ *    VERIFIED slot `settings.section` (mirrored from the reference
+ *    `dshmarket` client, which targets the same DeepSeek Harness web version
+ *    this plugin is built for). The registration metadata shape
+ *    `{ name, id, order, label, locale, inject }` matches that reference.
  *  - The composer (chat input) entry is double-guarded: the outer
  *    `slots.inject` and the inner `slots.register` are both wrapped, because
  *    registering into an undeclared slot throws. A wrong slot name for a given
  *    DSH version silently degrades and the Settings tab still works — no crash,
- *    no console-level anomaly.
+ *    no console-level anomaly. NOTE: deepseek-harness 0.1.0-rc.6 does not
+ *    expose a composer input slot, so this entry is expected to degrade in
+ *    that version; the Settings-tab clipboard flow remains the working path.
  */
 
 const NS = 'settings.expertMarketplace'
-const INJECT = ['slots', 'locale']
-const SETTINGS_TAB_SLOT = 'settings.plugins.tab'
+const INJECT = ['slots', 'locale', 'theme']
+const SETTINGS_TAB_SLOT = 'settings.section'
 const COMPOSER_SLOT = 'composer.toolbar'
 
 const CATEGORIES = [
@@ -446,7 +451,11 @@ function apply(ctx) {
 
   const injected = makeInjectedFace(t)
 
-  // 3) Settings tab — VERIFIED slot. Always attempted.
+  // 3) Settings tab — VERIFIED slot `settings.section` (per dshmarket, the
+  //    reference client for this harness version). Always attempted.
+  //    The component element is built from closure values (t, api) like
+  //    dshmarket does, so it never depends on how the harness passes `inject`
+  //    results as props — eliminating any chance of an undefined `api` crash.
   try {
     if (ctx.slots && typeof ctx.slots.inject === 'function') {
       ctx.slots.inject(SETTINGS_TAB_SLOT, () => guardedRegister(
@@ -454,12 +463,12 @@ function apply(ctx) {
         {
           name: SETTINGS_TAB_SLOT,
           id: 'expert-marketplace',
-          order: 20,
+          order: 50,
           label: () => t('tab'),
           locale: NS,
           inject: () => injected,
         },
-        ExpertMarketSettingsTab,
+        () => h(ExpertMarketSettingsTab, { t, api: injected.api }),
       ))
     }
   } catch { /* if slots are unavailable, skip UI entirely */ }
@@ -476,7 +485,7 @@ function apply(ctx) {
           label: () => t('expertPicker'),
           inject: () => injected,
         },
-        ExpertPickerButton,
+        () => h(ExpertPickerButton, { t, api: injected.api }),
       ))
     }
   } catch { /* slot missing or invalid → silently skip; Settings tab still works */ }
