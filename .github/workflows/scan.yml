@@ -1,0 +1,40 @@
+name: scan-catalog
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 每天 UTC 02:00 刷新一次社区目录
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh catalog (remote discovery)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/scan.mjs --remote --out .
+
+      - name: Commit updated catalog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CATALOG.md catalog.json
+          if git diff --cached --quiet; then
+            echo "No catalog changes."
+          else
+            git commit -m "chore: refresh catalog [skip ci]"
+            git push
+          fi
