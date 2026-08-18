@@ -34,7 +34,7 @@ DSH（DeepSeek Harness）是 DeepSeek 开源的 Agent 框架，理念「一切�
 1. **浏览目录**：直接看 [`CATALOG.md`](CATALOG.md)（由扫描器自动生成）。
 2. **使用专家**：现阶段专家即「Markdown + manifest」。
    - 可手动把 `expert.md` 的正文作为系统提示 / 角色设定引入你的 DSH 会话；
-   - 或等 **Phase 2 的 DSH 专家市场插件** 提供「一键安装到某个 profile」的体验。
+   - 或用独立的 **[dsh-experts](https://github.com/fuchao2pku/dsh-experts) 插件** 在 Web UI 内「一键安装 / 浏览」专家与专家团（见其仓库 README）。
 3. **本地校验 / 生成目录**（需 Node.js 18+）：
    ```bash
    node scripts/scan.mjs --local
@@ -102,13 +102,10 @@ awesome-dsh-experts/
 │   └── expert-manifest.md    # manifest 规范 + JSON Schema
 ├── scripts/
 │   └── scan.mjs              # 目录扫描器（无外部依赖）
-├── plugin/                   # Phase 2：DSH 专家市场插件（bundle + client）
-│   ├── package.json          # dsh.bundle.patch + dsh.client 声明
-│   ├── cordis.patch.yml      # 插件默认配置（catalogUrl / 槽位等）
-│   ├── src/                  # host.js（Node 半） + client.js（浏览器半）
-│   └── test/                 # 26 项 node --test 用例（无外部依赖）
 └── .github/workflows/
     └── scan.yml              # 定时刷新目录
+
+> **DSH 专家市场插件（消费本目录）已迁出为独立仓库 [dsh-experts](https://github.com/fuchao2pku/dsh-experts)** —— 一个开箱即用的 DSH bundle + client 插件，按默认 `catalogUrl` 直接读取本仓库生成的 `catalog.json`。本目录仓只负责「专家 / 专家团」的数据与贡献。
 ```
 
 ---
@@ -117,24 +114,24 @@ awesome-dsh-experts/
 
 DSH 的「一切皆插件」意味着官方 Web UI 的能力（包括插件市场）本身也是插件。例如 [`dsh-plugin-marketplace`](https://github.com/w2112515/dsh-plugin-marketplace) 以 **bundle + client** 的形式挂载「插件市场」入口，**全程不改 `deepseek-harness` 源码**，靠 `dsh plugin --profile web add` 安装。
 
-本仓库定义的专家，将来由 **DSH 专家市场插件（Phase 2）** 读取 `catalog.json` 与各地 `expert.md`，在 Web UI 内提供「专家 / 专家团」市场入口，并在输入框支持引入已安装的专家团——交互参照 WorkBuddy 的专家体验。我们**不 fork `deepseek-harness` 源码**。
+本仓库定义的专家，现由独立的 **[dsh-experts](https://github.com/fuchao2pku/dsh-experts) 插件** 读取 `catalog.json` 与各地 `expert.md`，在 Web UI 内提供「专家 / 专家团」市场入口，并在输入框支持引入已安装的专家团——交互参照 WorkBuddy 的专家体验。我们**不 fork `deepseek-harness` 源码**。
 
 ---
 
-## 路线图 / Phase 2：DSH 专家市场插件 ✅ 已交付
+## 路线图：DSH 专家市场插件 ✅ 已交付（独立仓库 dsh-experts）
 
-> 实现位于 [`plugin/`](plugin/)，是一个**开箱即用的 DSH bundle + client 插件**。详见 [`plugin/README.md`](plugin/README.md)。
+> 实现现独立维护于 [dsh-experts](https://github.com/fuchao2pku/dsh-experts) 仓库（一个开箱即用的 DSH bundle + client 插件）。详见该仓库 README。
 
 - [x] 以 DSH bundle + client 插件形式实现，挂载「专家 / 专家团」入口到 Web UI（设置页，类比插件市场）；
 - [x] 修改输入框，支持引入已安装的专家 / 专家团（参照 WorkBuddy 左侧专家入口 + 输入框引入，composer 入口为可降级可选能力）；
 - [x] 消费本仓库的 `catalog.json`（并内置 seed 兜底），提供浏览、搜索、审阅、复制到输入框；
-- [x] **加装零崩溃保障**：纯 JS 无构建、可选 peer 依赖、逐功能 try/catch、seed 兜底、composer 槽位双保险、同源 API 守卫；26 项测试全绿。
+- [x] **加装零崩溃保障**：纯 JS 无构建、可选 peer 依赖、逐功能 try/catch、seed 兜底、composer 槽位双保险、同源 API 守卫；27 项测试全绿。
 - [ ] 安装信任模型参照 marketplace（基于固定 commit 的证据、逐次人工批准）——后续议题。
 
-### 安装 Phase 2 插件
+### 安装 dsh-experts 插件
 
 ```bash
-dsh plugin --profile web add <path-or-git-url-to>/awesome-dsh-experts/plugin
+dsh plugin --profile web add https://github.com/fuchao2pku/dsh-experts.git
 ```
 
 重启 Web profile 后，在 **设置 → 插件** 中会看到「专家市场」标签页；可选地在聊天输入框出现「专家」入口按钮。
