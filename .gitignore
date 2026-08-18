@@ -13,3 +13,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Generated site (built by scripts/build-site.mjs, deployed via GitHub Actions)
+site/

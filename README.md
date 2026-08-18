@@ -9,6 +9,7 @@ DSH（DeepSeek Harness）是 DeepSeek 开源的 Agent 框架，理念「一切�
 - 一份**社区可贡献**的专家注册表（你写的提示词，别人能装）；
 - 一套**机器可加载**的 manifest 规范（未来的 DSH 插件直接读它）；
 - 一个**自动扫描**目录生成器（类比 awesome-dsh-plugins 的扫描器）。
+- 一个**在线站点**：[fuchao2pku.github.io/awesome-dsh-experts](https://fuchao2pku.github.io/awesome-dsh-experts) 可浏览专家列表与详情，由 `scripts/build-site.mjs` 生成、`main` 分支推送即自动部署（GitHub Pages）。
 
 ---
 
@@ -40,6 +41,13 @@ DSH（DeepSeek Harness）是 DeepSeek 开源的 Agent 框架，理念「一切�
    node scripts/scan.mjs --local
    ```
    会产出 `catalog.json` 与 `CATALOG.md`，并列出任何 manifest 校验问题。
+
+4. **本地预览站点**（需 Node.js 18+）：
+   ```bash
+   node scripts/build-site.mjs   # 生成 site/（专家列表 + 详情页，零依赖）
+   python3 -m http.server -d site 8000   # 浏览器打开 http://localhost:8000
+   ```
+   站点通过 `.github/workflows/pages.yml` 自动部署：**推送 `main` 即上线**；向 `main` 提 PR 仅做构建校验不部署。
 
 ---
 

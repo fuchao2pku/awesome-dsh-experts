@@ -1,0 +1,54 @@
+name: Deploy Pages site
+
+# 自动部署 awesome-dsh-experts 的 GitHub Pages 站点：
+#   - 推送到 main        -> 构建并部署到 GitHub Pages
+#   - 向 main 发起 PR    -> 仅构建校验（不部署），用于提前发现生成错误
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 允许 GITHUB_TOKEN 部署到 Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只跑一个部署，避免并发覆盖
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build static site
+        run: node scripts/build-site.mjs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    # 只有推送到 main 才真正部署；PR 只跑上面的构建校验
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

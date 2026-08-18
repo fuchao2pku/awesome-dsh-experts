@@ -10,7 +10,7 @@ tags:
   - product
   - requirements
 author: awesome-dsh-experts
-homepage: https://github.com/awesome-dsh-experts/awesome-dsh-experts
+homepage: https://github.com/fuchao2pku/awesome-dsh-experts
 license: MIT
 version: 0.1.0
 created: 2026-08-17
