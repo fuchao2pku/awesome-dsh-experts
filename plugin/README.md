@@ -62,6 +62,37 @@ crash the host or the Web UI.** Mechanisms:
 - **Same-origin API guard** — cross-origin requests are rejected with a
   structured `403` instead of throwing.
 
+## Data source, updates & storage (experts / expert groups)
+
+**Short answer to "does dsh web load straight from the GitHub repo?" — No.** The
+browser never touches GitHub. The host (Node) process fetches a pre-built
+`catalog.json`; the browser only calls the same-origin API
+`/api/expert-marketplace`. This mirrors how `dshmarket` sources its catalog.
+
+1. **Source of truth:** `experts/*.md` (per-expert Markdown + YAML frontmatter),
+   committed in the GitHub repo.
+2. **Build:** `scripts/scan.mjs` aggregates them into `catalog.json`
+   (machine-readable, consumed by this plugin) and `CATALOG.md` (human-readable).
+3. **Update:** `.github/workflows/scan.yml` regenerates the catalog on every push
+   **and** on a daily cron (UTC 02:00). It runs `scan.mjs --remote` (which also
+   discovers community repos tagged `dsh-expert` / `dsh-expert-pack`) and commits
+   the refreshed `catalog.json` back to the repo.
+4. **Runtime load:** `src/host.js` `CatalogSource` seeds from the bundled
+   `catalog-seed.json`, then refreshes from `cfg.catalogUrl` (default:
+   `https://raw.githubusercontent.com/fuchao2pku/awesome-dsh-experts/main/catalog.json`)
+   on startup / Settings-tab open / manual refresh. Fetches are conditional
+   (ETag / Last-Modified + 304) so re-fetching is cheap, exactly like
+   `dshmarket`'s registry fetch.
+5. **Storage / caching (3 layers):**
+   - In-memory `entries` — the live list served by the API.
+   - Best-effort on-disk cache in the system temp dir
+     (`<tmpdir>/dsh-expert-marketplace/catalog.json`) — survives a restart when
+     the network is down.
+   - Bundled `catalog-seed.json` — the offline fallback used at first boot.
+
+All fetch/cache failures are swallowed; the seed (or last good) wins and the UI
+shows a "catalog may be stale" hint.
+
 ## Tests
 
 ```bash

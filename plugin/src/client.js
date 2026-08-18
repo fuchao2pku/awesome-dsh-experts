@@ -175,7 +175,7 @@ function Spinner({ t }) {
 
 function ErrorBox({ message, t, onRetry }) {
   return h('div', { style: { padding: 16 } }, [
-    h('div', { key: 'e', style: { color: '#e06c6c' } }, t('error') + (message || '')),
+    h('div', { key: 'e', style: { color: 'var(--dsw-alias-state-error-primary, #dc2626)' } }, t('error') + (message || '')),
     h('button', { key: 'r', style: btnStyle, onClick: onRetry }, t('retry')),
   ])
 }
@@ -185,7 +185,7 @@ function Toast({ text, onClose }) {
   return h('div', {
     style: {
       position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
-      background: '#222', color: '#fff', padding: '10px 14px', borderRadius: 8,
+      background: 'var(--dsw-alias-toast-bg, #2b2b2b)', color: '#fff', padding: '10px 14px', borderRadius: 8,
       boxShadow: '0 4px 16px rgba(0,0,0,0.4)', zIndex: 9999,
     },
     onClick: onClose,
@@ -206,7 +206,7 @@ function Detail({ entry, t, onBack, onImport }) {
   if (!entry) return h('div', null, t('notFound'))
   const di = entry.dsh_integration || {}
   const members = di.members || []
-  return h('div', { style: { padding: 12, maxWidth: 720 } }, [
+  return h('div', { style: { padding: 12, maxWidth: 720, color: 'var(--dsw-alias-label-primary, #1f2328)' } }, [
     h('button', { key: 'b', style: btnStyle, onClick: onBack }, t('back')),
     h('h3', { key: 't', style: { margin: '12px 0' } }, entry.name),
     h('p', { key: 's', style: { opacity: 0.85 } }, entry.summary || ''),
@@ -312,12 +312,12 @@ function ExpertMarketSettingsTab(props) {
         h('button', { key: 's', style: btnStyle, onClick: runSearch }, '🔍'),
         h('button', { key: 'r', style: btnStyle, onClick: load }, t('retry')),
       ]),
-      stale ? h('div', { key: 'stale', style: { color: '#d9a441', marginBottom: 8 } }, t('stale')) : null,
+      stale ? h('div', { key: 'stale', style: { color: 'var(--dsw-alias-state-warn-primary, #b45309)', marginBottom: 8 } }, t('stale')) : null,
       h('div', { key: 'grid', style: { display: 'flex', flexWrap: 'wrap' } }, cards),
     ])
   }
 
-  return h('div', { style: { padding: 12 } }, [
+  return h('div', { style: { padding: 12, color: 'var(--dsw-alias-label-primary, #1f2328)' } }, [
     h('div', { key: 'head' }, [
       h('h2', { key: 'title', style: { margin: '0 0 4px' } }, t('title')),
       h('div', { key: 'sub', style: { opacity: 0.7, fontSize: 13 } }, t('subtitle')),
@@ -356,14 +356,14 @@ function ExpertPickerButton(props) {
 
   return h('div', { style: { position: 'relative', display: 'inline-block' } }, [
     h('button', {
-      key: 'btn', style: { ...btnStyle, background: 'var(--dsh-card,#1c1c1c)', color: 'inherit' }, onClick: toggle,
+      key: 'btn', style: { ...btnStyle, background: 'var(--dsw-alias-bg-layer-2, #f3f4f6)', color: 'var(--dsw-alias-label-primary, #1f2328)' }, onClick: toggle,
     }, `🧠 ${t('expertPicker')}`),
     open
       ? h('div', {
           key: 'pop',
           style: {
             position: 'absolute', bottom: '110%', left: 0, minWidth: 240, maxHeight: 320, overflowY: 'auto',
-            border: '1px solid var(--dsh-border,#2a2a2a)', borderRadius: 8, background: 'var(--dsh-card,#1c1c1c)', padding: 6, zIndex: 50,
+            border: '1px solid var(--dsw-alias-border-l2, rgba(0,0,0,0.1))', borderRadius: 8, background: 'var(--dsw-alias-bg-layer-1, #ffffff)', padding: 6, zIndex: 50,
           },
         }, [
           h('div', { key: 'intro', style: { fontSize: 12, opacity: 0.6, marginBottom: 4 } }, t('pickerIntro')),
@@ -377,26 +377,30 @@ function ExpertPickerButton(props) {
   ])
 }
 
+// All colors use DSH's official `--dsw-alias-*` design tokens (the same set
+// dsh-market uses). DSH defines these on `:root` for light mode and overrides
+// them under `body[data-ds-dark-theme]` for dark mode, so the UI follows the
+// user's theme automatically — no manual dark/light branches needed.
 const cardStyle = {
-  border: '1px solid var(--dsh-border, #2a2a2a)',
+  border: '1px solid var(--dsw-alias-border-l2, rgba(0,0,0,0.1))',
   borderRadius: 8,
   padding: 12,
   margin: 8,
-  background: 'var(--dsh-card, #1c1c1c)',
-  color: 'inherit',
+  background: 'var(--dsw-alias-bg-layer-1, #ffffff)',
+  color: 'var(--dsw-alias-label-primary, #1f2328)',
   maxWidth: 280,
   cursor: 'pointer',
 }
 const btnStyle = {
-  border: '1px solid var(--dsh-border, #2a2a2a)',
+  border: '1px solid var(--dsw-alias-border-l2, rgba(0,0,0,0.1))',
   borderRadius: 6,
   padding: '6px 10px',
-  background: 'var(--dsh-accent, #3a6df0)',
-  color: '#fff',
+  background: 'var(--dsw-alias-button-primary-fill, #4f6ef7)',
+  color: 'var(--dsw-alias-label-primary-foreground, #ffffff)',
   cursor: 'pointer',
 }
 const inputStyle = {
-  padding: '6px 10px', borderRadius: 6, border: '1px solid var(--dsh-border, #2a2a2a)', background: 'var(--dsh-input, #111)', color: 'inherit', minWidth: 220,
+  padding: '6px 10px', borderRadius: 6, border: '1px solid var(--dsw-alias-border-l2, rgba(0,0,0,0.1))', background: 'var(--dsw-alias-bg-layer-1, #ffffff)', color: 'var(--dsw-alias-label-primary, #1f2328)', minWidth: 220,
 }
 
 /* ------------------------------- apply ------------------------------- */

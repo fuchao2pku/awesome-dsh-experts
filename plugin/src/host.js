@@ -53,9 +53,39 @@ function loadSeed() {
 }
 
 /**
- * Catalog source: in-memory entries seeded from the bundle, refreshed from a
- * remote URL with timeout / size guards and a best-effort on-disk cache.
- * All network/cache failures are swallowed; the seed (or last good) wins.
+ * Catalog source: where the expert / expert-group data actually lives, and how
+ * it is refreshed. Mirrors how dsh-market sources its catalog.
+ *
+ * ## Where the data comes from (source of truth → runtime)
+ *   1. `experts/*.md` (per-expert Markdown + YAML frontmatter) is the SOURCE OF
+ *      TRUTH, committed in the GitHub repo.
+ *   2. `scripts/scan.mjs` aggregates those into two artifacts at the repo root:
+ *      `catalog.json` (machine-readable, what this plugin consumes) and
+ *      `CATALOG.md` (human-readable).
+ *   3. `.github/workflows/scan.yml` regenerates that catalog on every push AND
+ *      on a daily cron (UTC 02:00) — it runs `scan.mjs --remote` (which also
+ *      discovers community repos tagged dsh-expert / dsh-expert-pack) and commits
+ *      the refreshed `catalog.json` back to the repo. That is "how it updates".
+ *
+ * ## How the plugin loads it (NOT a direct browser ← GitHub fetch)
+ *   - The BROWSER (client bundle) NEVER talks to GitHub. It only calls the
+ *     same-origin API `/api/expert-marketplace` (see makeHandler below).
+ *   - The actual fetch of `catalog.json` happens in this HOST (Node) process,
+ *     from `cfg.catalogUrl` (default: the repo's raw `catalog.json` on
+ *     raw.githubusercontent.com). This is exactly dsh-market's model: the host
+ *     pulls a static, pre-built catalog JSON; the browser only sees a local API.
+ *
+ * ## Storage / caching (3 layers, most-durable first)
+ *   - In-memory `this.entries`: the live list served by the API.
+ *   - Best-effort on-disk cache in the system temp dir
+ *     (`<tmpdir>/dsh-expert-marketplace/catalog.json`): survives a process
+ *     restart when the network is down.
+ *   - Bundled `catalog-seed.json` (shipped inside the plugin): the offline
+ *     fallback used at first boot before any network call succeeds.
+ *
+ * Conditional requests (ETag / Last-Modified + 304) keep refreshes cheap and
+ * correct, exactly like dsh-market's registry fetch. All failures are swallowed;
+ * the seed (or last good) wins and the UI is told via `stale`.
  */
 class CatalogSource {
   constructor(cfg) {
@@ -66,6 +96,9 @@ class CatalogSource {
     this.stale = false
     this.lastSuccessfulFetchAt = null
     this.error = null
+    // Cache validators for conditional GETs (in-memory only, like dsh-market).
+    this.etag = null
+    this.lastModified = null
   }
 
   view() {
@@ -82,6 +115,13 @@ class CatalogSource {
   async refresh() {
     const { catalogUrl, timeoutMs, maxBytes } = this.cfg
     try {
+      // Conditional GET: send the validators we last saw so an unchanged
+      // catalog answers 304 (cheap — no re-download/parse). dsh-market does the
+      // same with its registry's etag / last-modified.
+      const headers = { accept: 'application/json' }
+      if (this.etag) headers['if-none-match'] = this.etag
+      if (this.lastModified) headers['if-modified-since'] = this.lastModified
+
       const controller = new AbortController()
       const timer = setTimeout(() => controller.abort(), timeoutMs)
       let text = ''
@@ -89,9 +129,18 @@ class CatalogSource {
       const response = await fetch(catalogUrl, {
         signal: controller.signal,
         redirect: 'follow',
-        headers: { accept: 'application/json' },
+        headers,
       })
       clearTimeout(timer)
+
+      // 304 Not Modified: keep current entries, just record a fresh fetch.
+      if (response.status === 304) {
+        this.stale = false
+        this.error = null
+        this.lastSuccessfulFetchAt = new Date().toISOString()
+        return queryList(this.entries, { page: 1, pageSize: 1 })
+      }
+
       if (!response.ok) throw new Error(`catalog HTTP ${response.status}`)
       // Stream with a hard byte cap to avoid OOM on a bad endpoint.
       const reader = response.body?.getReader ? response.body.getReader() : null
@@ -117,6 +166,11 @@ class CatalogSource {
       this.stale = false
       this.error = null
       this.lastSuccessfulFetchAt = new Date().toISOString()
+      // Remember the validators for the next conditional request.
+      const getHeader = (name) =>
+        (response.headers && typeof response.headers.get === 'function') ? response.headers.get(name) : null
+      this.etag = getHeader('etag') || this.etag
+      this.lastModified = getHeader('last-modified') || this.lastModified
       this.persist(text)
     } catch (e) {
       // Keep the seed / last-good entries; mark stale and record the reason.
