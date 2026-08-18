@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Refresh catalog (remote discovery)
+      - name: Refresh catalog (local experts + remote discovery)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/scan.mjs --remote --out .
+        run: node scripts/scan.mjs --local --remote --out .
 
       - name: Commit updated catalog
         run: |

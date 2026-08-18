@@ -195,10 +195,10 @@ function Toast({ text, onClose }) {
 function ExpertCard({ entry, t, onOpen }) {
   return h('div', { style: cardStyle, onClick: () => onOpen(entry.id) }, [
     h('div', { key: 'n', style: { fontWeight: 600, marginBottom: 4 } }, entry.name),
-    h('div', { key: 'k', style: { fontSize: 12, opacity: 0.6, marginBottom: 6 } },
+    h('div', { key: 'k', style: { fontSize: 12, color: LABEL_SECONDARY, marginBottom: 6 } },
       `[${entry.kind === 'pack' ? t('packs') : t('experts')}] · ${entry.category}`),
-    h('div', { key: 's', style: { fontSize: 13, opacity: 0.85 } }, entry.summary || ''),
-    h('div', { key: 'a', style: { fontSize: 12, opacity: 0.5, marginTop: 6 } }, `${t('author')}: ${entry.author}`),
+    h('div', { key: 's', style: { fontSize: 13, color: LABEL_SECONDARY } }, entry.summary || ''),
+    h('div', { key: 'a', style: { fontSize: 12, color: LABEL_TERTIARY, marginTop: 6 } }, `${t('author')}: ${entry.author}`),
   ])
 }
 
@@ -209,9 +209,9 @@ function Detail({ entry, t, onBack, onImport }) {
   return h('div', { style: { padding: 12, maxWidth: 720, color: 'var(--dsw-alias-label-primary, #1f2328)' } }, [
     h('button', { key: 'b', style: btnStyle, onClick: onBack }, t('back')),
     h('h3', { key: 't', style: { margin: '12px 0' } }, entry.name),
-    h('p', { key: 's', style: { opacity: 0.85 } }, entry.summary || ''),
-    h('p', { key: 'd', style: { opacity: 0.7 } }, entry.description || ''),
-    h('div', { key: 'm', style: { fontSize: 13, opacity: 0.7, lineHeight: 1.8 } }, [
+    h('p', { key: 's', style: { color: LABEL_SECONDARY } }, entry.summary || ''),
+    h('p', { key: 'd', style: { color: LABEL_SECONDARY } }, entry.description || ''),
+    h('div', { key: 'm', style: { fontSize: 13, color: LABEL_SECONDARY, lineHeight: 1.8 } }, [
       h('div', { key: 'cat' }, `${t('category')}: ${entry.category}`),
       h('div', { key: 'au' }, `${t('author')}: ${entry.author}`),
       h('div', { key: 'v' }, `${t('version')}: ${entry.version}`),
@@ -320,7 +320,7 @@ function ExpertMarketSettingsTab(props) {
   return h('div', { style: { padding: 12, color: 'var(--dsw-alias-label-primary, #1f2328)' } }, [
     h('div', { key: 'head' }, [
       h('h2', { key: 'title', style: { margin: '0 0 4px' } }, t('title')),
-      h('div', { key: 'sub', style: { opacity: 0.7, fontSize: 13 } }, t('subtitle')),
+      h('div', { key: 'sub', style: { color: LABEL_SECONDARY, fontSize: 13 } }, t('subtitle')),
     ]),
     h(Toast, { key: 'toast', text: toast, onClose: () => setToast(null) }),
     body,
@@ -402,6 +402,14 @@ const btnStyle = {
 const inputStyle = {
   padding: '6px 10px', borderRadius: 6, border: '1px solid var(--dsw-alias-border-l2, rgba(0,0,0,0.1))', background: 'var(--dsw-alias-bg-layer-1, #ffffff)', color: 'var(--dsw-alias-label-primary, #1f2328)', minWidth: 220,
 }
+
+// dsh-agent-teams-style secondary/tertiary text + business accent. These are
+// all REAL rc.6 tokens (verified against @deepseek-ai/dsh-client-ui-theme);
+// prefer them over opacity hacks so muted text stays legible in BOTH light and
+// dark themes instead of just dimming the primary color.
+const LABEL_SECONDARY = 'var(--dsw-alias-label-secondary, rgba(0,0,0,0.6))'
+const LABEL_TERTIARY = 'var(--dsw-alias-label-tertiary, rgba(0,0,0,0.45))'
+const ACCENT = 'var(--dsw-alias-state-business-primary, #4f6ef7)'
 
 /* ------------------------------- apply ------------------------------- */
 

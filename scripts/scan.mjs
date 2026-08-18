@@ -18,6 +18,7 @@
  * No external dependencies: uses only Node.js built-ins.
  */
 
+import { readFileSync } from 'node:fs';
 import { readFile, writeFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname, resolve, relative } from 'node:path';
@@ -209,12 +210,23 @@ async function scanLocal() {
 // ---------------------------------------------------------------------------
 // Remote scan (GitHub topic discovery) — best-effort, never crashes
 // ---------------------------------------------------------------------------
+/** The catalog repo's own name, so remote discovery never lists itself. */
+function selfRepoName() {
+  try {
+    const pkg = JSON.parse(readFileSync(join(REPO_ROOT, 'package.json'), 'utf8'));
+    return pkg.name || 'awesome-dsh-experts';
+  } catch {
+    return 'awesome-dsh-experts';
+  }
+}
+
 async function scanRemote() {
   const token = process.env.GITHUB_TOKEN;
   const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'awesome-dsh-experts-scanner' };
   if (token) headers.Authorization = `Bearer ${token}`;
   const entries = [];
   const errors = [];
+  const selfName = selfRepoName();
   try {
     const res = await fetch(
       `https://api.github.com/search/repositories?q=${encodeURIComponent('topic:dsh-expert')}&per_page=100`,
@@ -230,6 +242,7 @@ async function scanRemote() {
     }
     const data = await res.json();
     for (const repo of data.items || []) {
+      if (repo.name === selfName) continue; // never list the catalog repo itself
       const topics = repo.topics || [];
       entries.push({
         id: repo.name,
@@ -307,16 +320,21 @@ async function main() {
   if (args.includes('--help')) {
     console.log(`Usage: node scripts/scan.mjs [--local] [--remote] [--out <dir>] [--help]
 
-  --local    Scan ./experts recursively (default, offline)
-  --remote   Query GitHub for topic:dsh-expert (needs network; GITHUB_TOKEN optional)
+  --local    Scan ./experts recursively (default; always included unless --no-local)
+  --remote   Augment with GitHub topic:dsh-expert discovery (needs network; GITHUB_TOKEN optional)
+  --no-local Skip the local ./experts scan (remote-only)
   --out DIR  Output directory (default: repo root)
   --help     Show this help`);
     return;
   }
   const outIdx = args.indexOf('--out');
   const outDir = outIdx >= 0 ? resolve(args[outIdx + 1]) : REPO_ROOT;
+  // Local ./experts is the curated, trusted source of truth and is ALWAYS
+  // scanned unless explicitly disabled with --no-local. --remote only
+  // AUGMENTS it with GitHub topic discovery (this also fixes the old bug
+  // where `--remote` alone silently skipped the local experts).
   const remote = args.includes('--remote');
-  const local = args.includes('--local') || !remote;
+  const local = !args.includes('--no-local');
 
   let entries = [];
   const errors = [];
