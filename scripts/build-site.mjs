@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
- * build-site.mjs — 零依赖站点生成器
+ * build-site.mjs — 零依赖站点生成器（V2：暗黑优先 + 精选场景 + Tab/筛选/排序）
  *
  * 读取 catalog.json（结构化的专家/专家团元数据）与 experts/*.md（正文），
  * 生成静态 GitHub Pages 站点到 site/：
- *   - site/index.html        专家列表（按分类分组 + 搜索/筛选）
+ *   - site/index.html        专家市场（精选场景 + 专家/专家团 Tab + 分类 chips + 卡片网格）
  *   - site/<id>.html         专家/专家团详情
- *   - site/assets/site.css   设计系统（taste 风格，明暗双主题）
- *   - site/assets/site.js    主题切换 + 搜索 + 分类筛选
+ *   - site/assets/site.css   暗黑优先设计系统
+ *   - site/assets/site.js    Tab 切换 + 分类筛选 + 搜索 + 排序 + 主题切换
  *
  * 所有页面使用相对路径，兼容 GitHub Pages 子路径（/awesome-dsh-experts/）。
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -21,13 +21,13 @@ const OUT = join(ROOT, "site");
 const ASSETS = join(OUT, "assets");
 
 const CAT_LABELS = {
-  coding: "编程", writing: "写作", design: "设计", data: "数据",
-  devops: "运维", legal: "法务", education: "教育", multimodal: "多模态",
-  general: "通用", team: "专家团", uncategorized: "未分类",
+  coding: "编程开发", writing: "写作内容", design: "设计创意", data: "数据智能",
+  devops: "运维云原生", legal: "法务合规", education: "教育教学", multimodal: "多模态",
+  general: "通用管理", team: "专家团", uncategorized: "未分类",
 };
-// 优先展示专家团，再按常见度排序
-const CAT_ORDER = ["team", "coding", "writing", "design", "data", "devops",
-  "legal", "education", "multimodal", "general", "uncategorized"];
+/* 精选场景与分类 chips 的展示顺序（团队放最后） */
+const CAT_ORDER = ["coding", "writing", "design", "data", "devops",
+  "legal", "education", "multimodal", "general", "team", "uncategorized"];
 
 const GITHUB = "https://github.com/fuchao2pku/awesome-dsh-experts";
 const PLUGIN = "https://github.com/fuchao2pku/dsh-experts";
@@ -43,10 +43,14 @@ function esc(s) {
 }
 function initial(name) {
   const n = String(name || "").trim();
-  return n ? n[0] : "?";
+  return n ? Array.from(n)[0] : "?";
 }
-function kindLabel(kind) {
-  return kind === "pack" ? "专家团" : "单专家";
+function kindLabel(kind) { return kind === "pack" ? "专家团" : "单专家"; }
+
+/** 热度评分：优先用 frontmatter.popularity，否则按 kind 给默认 */
+function hotOf(e) {
+  if (typeof e.popularity === "number" && !Number.isNaN(e.popularity)) return e.popularity;
+  return e.kind === "pack" ? 60 : 25;
 }
 
 /* ---------------- 极简 Markdown 渲染 ---------------- */
@@ -112,9 +116,9 @@ function mdToHtml(md) {
 }
 
 /* ---------------- 布局 ---------------- */
-function layout({ title, description, body, hasToolbar }) {
+function layout({ title, description, body, canonical }) {
   return `<!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -124,14 +128,21 @@ function layout({ title, description, body, hasToolbar }) {
 </head>
 <body>
 <header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="index.html"><span class="logo">DSH</span><span>Awesome DSH Experts</span></a>
+  <div class="header-inner wrap">
+    <a class="brand" href="index.html"><span class="logo">DSH</span><span class="brand-name">Awesome DSH Experts</span></a>
     <span class="header-spacer"></span>
-    <a class="github-link" href="${GITHUB}" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-      <span>GitHub</span>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input id="search" type="search" placeholder="搜索专家、标签或能力…" autocomplete="off">
+    </div>
+    <a class="my-experts" href="${GITHUB}" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span>我的专家</span>
     </a>
-    <button class="theme-toggle" id="theme-toggle" aria-label="切换主题" title="切换明暗主题">🌓</button>
+    <a class="icon-btn" href="${GITHUB}" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    </a>
+    <button class="icon-btn" id="theme-toggle" aria-label="切换主题" title="切换明暗主题">☀️</button>
   </div>
 </header>
 <main class="wrap">
@@ -139,7 +150,7 @@ ${body}
 </main>
 <footer class="footer">
   <div class="wrap">
-    <span>awesome-dsh-experts · 社区专家目录</span>
+    <span>awesome-dsh-experts · 社区专家市场</span>
     <span>在 DSH 设置页安装 <a href="${PLUGIN}" target="_blank" rel="noopener">dsh-experts</a> 插件即可一键使用</span>
   </div>
 </footer>
@@ -149,23 +160,32 @@ ${body}
 }
 
 /* ---------------- 卡片 ---------------- */
-function cardHtml(e) {
+function bestBadge(e) {
+  const hot = hotOf(e);
+  if (e.kind === "pack") return "";
+  if (hot >= 90) return `<span class="badge-best">热门</span>`;
+  if (hot >= 85) return `<span class="badge-best recommend">推荐</span>`;
+  return "";
+}
+function cardHtml(e, order) {
   const cat = e.category;
   const isPack = e.kind === "pack";
   const tags = (e.tags || []).slice(0, 3)
-    .map((t) => `<span class="badge tag">${esc(t)}</span>`).join("");
-  return `        <a class="card" href="${esc(e.id)}.html" data-name="${esc(e.name)}" data-summary="${esc(e.summary)}" data-tags="${esc((e.tags || []).join(" "))}" data-cat="${esc(cat)}" data-kind="${esc(e.kind)}">
+    .map((t) => `<span class="badge">${esc(t)}</span>`).join("");
+  const date = e.created || "";
+  const hot = hotOf(e);
+  return `        <a class="card" href="${esc(e.id)}.html" data-kind="${esc(e.kind)}" data-cat="${esc(cat)}" data-name="${esc(e.name)}" data-summary="${esc(e.summary || "")}" data-tags="${esc((e.tags || []).join(" "))}" data-date="${esc(date)}" data-hot="${hot}" data-order="${order}">
           <div class="card-top">
             <div class="avatar${isPack ? " pack" : ""}">${esc(initial(e.name))}</div>
-            <div>
-              <h3>${esc(e.name)}</h3>
-              <div class="kind">${kindLabel(e.kind)}</div>
+            <div class="card-info">
+              <h3>${esc(e.name)}${bestBadge(e)}</h3>
+              <div class="card-kind">${kindLabel(e.kind)}</div>
             </div>
           </div>
-          <p class="summary">${esc(e.summary)}</p>
+          <p class="summary">${esc(e.summary || "")}</p>
           <div class="card-foot">
             <div class="tags">${tags}</div>
-            <span class="badge">${esc(CAT_LABELS[cat] || cat)}</span>
+            <span class="badge cat">${esc(CAT_LABELS[cat] || cat)}</span>
           </div>
         </a>`;
 }
@@ -175,7 +195,7 @@ function main() {
   mkdirSync(OUT, { recursive: true });
   const catalog = JSON.parse(readFileSync(join(ROOT, "catalog.json"), "utf8"));
 
-  // 扁平化条目
+  // 扁平化条目（按 CAT_ORDER 稳定排序）
   const entries = [];
   const byId = {};
   for (const cat of CAT_ORDER) {
@@ -186,7 +206,6 @@ function main() {
       byId[e.id] = item;
     }
   }
-  // 兜底：收集未预见分类
   for (const cat of Object.keys(catalog.categories || {})) {
     if (CAT_ORDER.includes(cat)) continue;
     for (const e of catalog.categories[cat]) {
@@ -198,55 +217,73 @@ function main() {
 
   const catCount = {};
   for (const e of entries) catCount[e.category] = (catCount[e.category] || 0) + 1;
+  const kindCount = { expert: 0, pack: 0 };
+  for (const e of entries) kindCount[e.kind] = (kindCount[e.kind] || 0) + 1;
 
-  const packs = entries.filter((e) => e.kind === "pack").length;
   const usedCats = CAT_ORDER.filter((c) => catCount[c]);
+  // 专家 Tab 下可用的分类（排除 team/uncategorized，除非它们有专家）
+  const expertCats = usedCats.filter((c) => c !== "team" && c !== "uncategorized");
+  const packCats = usedCats.filter((c) => c === "team");
 
-  /* ----- 索引页 ----- */
-  const hero = `      <section class="hero wrap">
-        <span class="eyebrow">● DSH · DeepSeek Harness 社区</span>
-        <h1>发现并安装 <span class="grad">DSH 专家与专家团</span></h1>
-        <p class="lead">一份持续维护的社区专家目录。浏览专家 / 专家团、查看能力说明，并在 DSH 设置页的「专家市场」中一键安装。</p>
-        <div class="stats">
-          <div class="stat"><div class="num">${entries.length}</div><div class="label">专家 / 专家团</div></div>
-          <div class="stat"><div class="num">${packs}</div><div class="label">专家团</div></div>
-          <div class="stat"><div class="num">${usedCats.length}</div><div class="label">分类</div></div>
+  /* ----- 精选场景 ----- */
+  const scenarioCards = usedCats.map((cat) => {
+    const list = entries.filter((e) => e.category === cat);
+    const items = list.slice(0, 3)
+      .map((e) => `<li><span class="dot"></span>${esc(e.name)}</li>`).join("");
+    return `        <article class="scenario-card" data-cat="${esc(cat)}" tabindex="0">
+          <h3>${esc(CAT_LABELS[cat] || cat)}</h3>
+          <span class="scenario-count">${list.length} 个专家${cat === "team" ? "团" : ""}</span>
+          <ul class="scenario-items">${items}</ul>
+        </article>`;
+  }).join("\n");
+
+  const scenarios = `      <section class="scenarios">
+        <h2 class="section-title"><span class="title-bar"></span>精选场景 <span class="count-hint">按场景快速筛选</span></h2>
+        <div class="scenario-track">
+${scenarioCards}
         </div>
       </section>`;
 
-  const toolbar = `      <div class="toolbar wrap">
-        <div class="search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
-          <input id="search" type="search" placeholder="搜索专家、标签或能力…" autocomplete="off">
+  /* ----- Tab 切换 + 排序 ----- */
+  const tabBar = `      <div class="tab-bar">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-kind="expert">专家<span class="tab-count">${kindCount.expert || 0}</span></button>
+          <button class="tab" data-kind="pack">专家团<span class="tab-count">${kindCount.pack || 0}</span></button>
         </div>
-        <div class="chips">
-          <button class="chip active" data-cat="all">全部</button>
-${usedCats.map((c) => `          <button class="chip" data-cat="${c}">${esc(CAT_LABELS[c] || c)}</button>`).join("\n")}
+        <div class="sort" id="sort">
+          <span class="sort-label">排序</span>
+          <button class="sort-btn active" data-sort="default">综合</button>
+          <button class="sort-btn" data-sort="hot">最热</button>
+          <button class="sort-btn" data-sort="new">最新</button>
         </div>
       </div>`;
 
-  const sections = usedCats.map((cat) => {
-    const list = entries.filter((e) => e.category === cat);
-    return `      <section class="section">
-        <div class="section-head" data-cat="${cat}">
-          <h2>${esc(CAT_LABELS[cat] || cat)}</h2>
-          <span class="count">${list.length}</span>
-          <span class="bar"></span>
-        </div>
-        <div class="grid">
-${list.map(cardHtml).join("\n")}
-        </div>
-      </section>`;
-  }).join("\n");
+  /* ----- 分类筛选 chips（默认专家视图） ----- */
+  const chips = [`<button class="chip active" data-cat="all">全部</button>`]
+    .concat(expertCats.map((c) =>
+      `<button class="chip" data-cat="${c}">${esc(CAT_LABELS[c] || c)}</button>`))
+    .join("\n          ");
+  const filterBar = `      <div class="filter-bar" id="filter-bar">
+          ${chips}
+      </div>`;
 
-  const indexBody = `${hero}
-${toolbar}
-${sections}
-      <div class="empty" id="empty" style="display:none">没有匹配的专家，换个关键词或分类试试。</div>`;
+  /* ----- 卡片网格 ----- */
+  const cards = entries
+    .map((e, idx) => cardHtml(e, idx))
+    .join("\n");
+  const cardGrid = `      <div class="card-grid" id="card-grid">
+${cards}
+      </div>
+      <div class="empty-state" id="empty" style="display:none">没有匹配的专家，换个关键词或分类试试。</div>`;
+
+  const indexBody = `${scenarios}
+${tabBar}
+${filterBar}
+${cardGrid}`;
 
   const indexHtml = layout({
-    title: "社区专家目录",
-    description: "Awesome DSH Experts — 持续维护的 DSH 社区专家与专家团目录，支持在 DSH 设置页一键安装。",
+    title: "社区专家市场",
+    description: "Awesome DSH Experts — 持续维护的 DSH 社区专家与专家团市场，支持在 DSH 设置页一键安装。",
     body: indexBody,
   });
 
@@ -255,7 +292,7 @@ ${sections}
     const cat = e.category;
     const isPack = e.kind === "pack";
     const di = e.dsh_integration || {};
-    const tags = (e.tags || []).map((t) => `<span class="badge tag">${esc(t)}</span>`).join("");
+    const tags = (e.tags || []).map((t) => `<span class="badge">${esc(t)}</span>`).join("");
 
     let bodyHtml = "";
     const mdPath = e._path ? join(ROOT, e._path) : null;
@@ -273,22 +310,22 @@ ${sections}
 
     const dshBox = `        <div class="dsh-box">
           <h4>DSH 集成</h4>
-          <div class="dsh-row"><span class="k">类型</span><span class="v"><span class="badge">${esc(di.type || "—")}</span></span></div>
+          <div class="dsh-row"><span class="k">类型</span><span class="v"><span class="badge cat">${esc(di.type || "—")}</span></span></div>
           <div class="dsh-row"><span class="k">Profile</span><span class="v">${esc(di.profile || "—")}</span></div>
           <div class="dsh-row"><span class="k">触发</span><span class="v"><code class="dsh-entry">${esc(di.entry || "—")}</code></span></div>
 ${membersHtml ? `          <div class="dsh-row"><span class="k">成员</span><span class="v"><div class="members">${membersHtml}</div></span></div>\n` : ""}${di.orchestration ? `          <div class="dsh-row"><span class="k">协作</span><span class="v">${esc(di.orchestration)}</span></div>\n` : ""}${di.notes ? `          <div class="dsh-row"><span class="k">说明</span><span class="v">${esc(di.notes)}</span></div>\n` : ""}        </div>`;
 
     const meta = `        <div class="detail-meta">
-          <span class="badge">${esc(CAT_LABELS[cat] || cat)}</span>
+          <span class="badge cat">${esc(CAT_LABELS[cat] || cat)}</span>
           ${tags}
-          <span class="badge tag">作者 ${esc(e.author || "—")}</span>
-          <span class="badge tag">许可证 ${esc(e.license || "—")}</span>
-          <span class="badge tag">版本 ${esc(e.version || "—")}</span>
-          <span class="badge tag">创建 ${esc(e.created || "—")}</span>
-${e.homepage ? `          <a class="badge tag" href="${esc(e.homepage)}" target="_blank" rel="noopener">仓库 ↗</a>\n` : ""}        </div>`;
+          <span class="badge">作者 ${esc(e.author || "—")}</span>
+          <span class="badge">许可证 ${esc(e.license || "—")}</span>
+          <span class="badge">版本 ${esc(e.version || "—")}</span>
+          <span class="badge">创建 ${esc(e.created || "—")}</span>
+${e.homepage ? `          <a class="badge" href="${esc(e.homepage)}" target="_blank" rel="noopener">仓库 ↗</a>\n` : ""}        </div>`;
 
     const body = `      <a class="back" href="index.html">← 返回目录</a>
-      <div class="detail" data-cat="${cat}">
+      <div class="detail-page" data-cat="${cat}">
         <div class="detail-head">
           <div class="avatar${isPack ? " pack" : ""}">${esc(initial(e.name))}</div>
           <div>

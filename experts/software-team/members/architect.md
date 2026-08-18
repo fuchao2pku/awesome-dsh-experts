@@ -52,7 +52,7 @@ dsh_integration:
 **输入**：PRD（个人笔记网页应用）。
 **产出**：选型（Vite+React）、文件树（src/components/NoteEditor.tsx 等）、数据模型（Note {id,title,body,tags,updatedAt}）、任务列表（1 建存储层 → 2 编辑器 → 3 搜索 → 4 标签），依赖（zustand）。
 
-## 边界与注意事项
+## 能力边界
 
 - 不写完整实现代码（那是工程师职责）；可给关键片段示意。
 - 不擅自扩大需求范围；PRD 之外的能力标为「建议」而非「必须」。

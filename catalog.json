@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-18T16:20:26.768Z",
+  "generatedAt": "2026-08-18T22:58:31.414Z",
   "sources": [
     "local"
   ],
-  "total": 7,
+  "total": 45,
   "categories": {
     "coding": [
       {
@@ -30,6 +30,90 @@
           "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
         },
         "_path": "experts/code-reviewer/expert.md"
+      },
+      {
+        "id": "backend-architect",
+        "name": "后端架构师",
+        "kind": "expert",
+        "summary": "面向高并发与可演进的后端架构专家，精通 API 设计、服务拆分、数据库与缓存策略。",
+        "description": "一位后端与分布式系统架构师，熟悉 Node/Go/Java/Python 生态、REST 与 gRPC、关系型与 NoSQL 数据库、消息队列与缓存。它把业务需求翻译成服务边界、数据模型、API 契约与一致性方案，并权衡吞吐、延迟与运维成本，给出可落地的分阶段演进路径。",
+        "category": "coding",
+        "tags": [
+          "backend",
+          "api",
+          "microservices",
+          "database",
+          "scalability"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-12",
+        "popularity": 88,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/backend-architect 或 @提及后贴架构需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/coding/backend-architect/expert.md"
+      },
+      {
+        "id": "devops-guru",
+        "name": "DevOps 专家",
+        "kind": "expert",
+        "summary": "自动化一切的交付专家，精通 CI/CD、容器编排、IaC 与可观测性，让发布又快又稳。",
+        "description": "一位 DevOps / 平台工程专家，熟悉 GitHub Actions、GitLab CI、Docker、Kubernetes、Terraform 与可观测性栈（Prometheus、Grafana、OpenTelemetry）。它把「手动操作」变成「声明式流水线」，覆盖构建缓存、制品管理、蓝绿/金丝雀发布、环境一致性与故障自愈，目标是从提交到上线的分钟级、可回滚交付。",
+        "category": "coding",
+        "tags": [
+          "devops",
+          "cicd",
+          "kubernetes",
+          "automation",
+          "observability"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-28",
+        "popularity": 81,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/devops-guru 或 @提及后贴流水线需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/coding/devops-guru/expert.md"
+      },
+      {
+        "id": "frontend-master",
+        "name": "前端大师",
+        "kind": "expert",
+        "summary": "精通 React/Vue/Svelte 与现代 CSS 的前端工程专家，交付高性能、可访问、像素级还原的界面。",
+        "description": "一位资深前端工程师专家，熟悉 React、Vue、Svelte 与 TypeScript 生态，擅长组件化架构、状态管理、性能优化（代码分割、虚拟列表、Core Web Vitals）与无障碍（a11y）。它会把设计稿拆成可复用组件树、给出落地代码与样式方案，并指出常见的渲染与 hydration 陷阱。",
+        "category": "coding",
+        "tags": [
+          "frontend",
+          "react",
+          "typescript",
+          "css",
+          "performance"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-19",
+        "popularity": 95,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/frontend-master 或 @提及后贴组件需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/coding/frontend-master/expert.md"
       },
       {
         "id": "architect",
@@ -132,15 +216,469 @@
           "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
         },
         "_path": "experts/tech-writer/expert.md"
+      },
+      {
+        "id": "copywriter",
+        "name": "文案专家",
+        "kind": "expert",
+        "summary": "把卖点写成让人想点的文案，覆盖广告、落地页、社媒与品牌故事，兼顾转化与调性。",
+        "description": "一位擅长转化的文案专家，熟悉 AIDA、PAS 等结构，能为广告、落地页、短视频脚本、邮件与品牌故事产出有钩子、有节奏、有行动的文案。它先问清受众、目标与渠道，再给出多版候选与 A/B 建议，并标注合规与语气边界。",
+        "category": "writing",
+        "tags": [
+          "copywriting",
+          "marketing",
+          "branding",
+          "storytelling",
+          "conversion"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-05",
+        "popularity": 79,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/copywriter 或 @提及后贴文案需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/writing/copywriter/expert.md"
       }
     ],
-    "design": [],
-    "data": [],
-    "devops": [],
-    "legal": [],
-    "education": [],
-    "multimodal": [],
+    "design": [
+      {
+        "id": "ui-designer",
+        "name": "UI 设计师",
+        "kind": "expert",
+        "summary": "把需求变成好看又好用的界面，精通布局、设计系统、配色与交互动效，输出可交付规范。",
+        "description": "一位数字产品 UI 设计师，熟悉设计系统、栅格、色彩对比、层级与微交互。它把模糊需求转成信息架构、视觉风格与高保真界面描述，给出间距/字号/圆角/配色等具体规范，并与前端协作确保还原度。它强调一致性、可读性与品牌感。",
+        "category": "design",
+        "tags": [
+          "ui",
+          "design-system",
+          "visual",
+          "layout",
+          "branding"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-09",
+        "popularity": 84,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/ui-designer 或 @提及后贴界面需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/design/ui-designer/expert.md"
+      },
+      {
+        "id": "ux-researcher",
+        "name": "UX 研究员",
+        "kind": "expert",
+        "summary": "用研究替代猜测，设计可用性测试、用户访谈与问卷，把洞察转成产品决策。",
+        "description": "一位 UX 研究专家，掌握用户访谈、可用性测试、问卷、卡片分类与旅程地图等方法。它帮团队在动手前先回答「为谁、解决什么、为何信」。它设计轻量但严谨的研究计划，输出可行动的洞察与优先级，并提醒常见的抽样与引导偏差。",
+        "category": "design",
+        "tags": [
+          "ux",
+          "research",
+          "usability",
+          "interview",
+          "insights"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-20",
+        "popularity": 72,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/ux-researcher 或 @提及后贴研究需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/design/ux-researcher/expert.md"
+      }
+    ],
+    "data": [
+      {
+        "id": "data-analyst",
+        "name": "数据分析师",
+        "kind": "expert",
+        "summary": "从数据到决策的翻译官，精通 SQL、可视化与归因，把指标讲成人话并给出行动建议。",
+        "description": "一位数据分析师，熟练使用 SQL、Python（pandas）与可视化工具，能把业务问题拆成可度量的指标与取数口径。它做描述与诊断分析、构建看板、做基础归因与漏斗/留存分析，并强调口径一致与结论可复核，避免被「漂亮图表」误导。",
+        "category": "data",
+        "tags": [
+          "data-analysis",
+          "sql",
+          "visualization",
+          "metrics",
+          "reporting"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-02",
+        "popularity": 83,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/data-analyst 或 @提及后贴分析需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/data/data-analyst/expert.md"
+      },
+      {
+        "id": "ml-engineer",
+        "name": "ML 工程师",
+        "kind": "expert",
+        "summary": "把模型变成线上服务的工程专家，覆盖特征、训练、评估与推理部署的全链路。",
+        "description": "一位机器学习工程师，熟悉 sklearn、PyTorch、Transformer 与特征/推理工程。它把建模问题转成数据口径、特征方案、训练与评估协议，并关注从离线到线上的鸿沟：延迟、成本、监控与漂移。它强调可复现实验与严谨的评估，而非盲目追 SOTA。",
+        "category": "data",
+        "tags": [
+          "machine-learning",
+          "deep-learning",
+          "mlops",
+          "nlp",
+          "deployment"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-15",
+        "popularity": 86,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/ml-engineer 或 @提及后贴建模需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/data/ml-engineer/expert.md"
+      }
+    ],
+    "devops": [
+      {
+        "id": "ci-cd-expert",
+        "name": "CI/CD 专家",
+        "kind": "expert",
+        "summary": "让每次提交都安全可发布的流水线专家，精通构建加速、门禁、制品与渐进发布。",
+        "description": "一位专注 CI/CD 的工程师，熟悉 GitHub Actions、GitLab CI、Jenkins 与制品库。它设计从代码到生产的自动化流水线：并行测试、缓存提速、质量门禁（测试覆盖率/扫描）、制品版本化与蓝绿/金丝雀发布。它把「快」与「稳」当成同一目标的两个面。",
+        "category": "devops",
+        "tags": [
+          "cicd",
+          "pipelines",
+          "automation",
+          "release",
+          "quality-gate"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-15",
+        "popularity": 74,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/ci-cd-expert 或 @提及后贴流水线需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/devops/ci-cd-expert/expert.md"
+      },
+      {
+        "id": "cloud-architect",
+        "name": "云架构师",
+        "kind": "expert",
+        "summary": "在主流云上设计可扩展、可容灾、省成本的架构，精通网络、存储、Serverless 与多活。",
+        "description": "一位云架构师，熟悉 AWS / 阿里云 / 腾讯云的主流服务与 Well-Architected 理念。它把业务 SLA 翻译成网络拓扑、存储分层、计算形态（VM/容器/Serverless）与容灾策略，并在性能、成本与运维复杂度间权衡。它强调基础设施即代码与成本可观测。",
+        "category": "devops",
+        "tags": [
+          "cloud",
+          "aws",
+          "architecture",
+          "serverless",
+          "disaster-recovery"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-10",
+        "popularity": 76,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/cloud-architect 或 @提及后贴云架构需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/devops/cloud-architect/expert.md"
+      }
+    ],
+    "legal": [
+      {
+        "id": "compliance-officer",
+        "name": "合规官",
+        "kind": "expert",
+        "summary": "把监管要求翻译成可执行的制度与清单，覆盖数据合规、行业准入与内控风险。",
+        "description": "一位企业合规专家，熟悉个人信息保护（如 PIPL/GDPR）、行业准入与内控要求。它把模糊的合规义务转成可落地的制度、流程清单与自查表，帮团队在「能上线」与「合规」之间找到路径。它强调证据留痕与风险分级，并明确自身不提供法律意见书。",
+        "category": "legal",
+        "tags": [
+          "compliance",
+          "privacy",
+          "risk",
+          "regulation",
+          "audit"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-30",
+        "popularity": 68,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/compliance-officer 或 @提及后贴合规需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/legal/compliance-officer/expert.md"
+      },
+      {
+        "id": "patent-advisor",
+        "name": "专利顾问",
+        "kind": "expert",
+        "summary": "把技术方案变成可专利的资产，覆盖交底书撰写、可专利性判断与布局策略。",
+        "description": "一位专利顾问，熟悉发明专利的授权要件（新颖性、创造性、实用性）与交底书结构。它帮发明人把技术方案提炼成权利要求与实施例，评估可专利性与常见驳回风险，并给出围绕核心技术的专利布局思路。它明确不替代专利代理师的法律服务。",
+        "category": "legal",
+        "tags": [
+          "patent",
+          "ip",
+          "invention",
+          "claims",
+          "strategy"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-22",
+        "popularity": 61,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/patent-advisor 或 @提及后贴专利需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/legal/patent-advisor/expert.md"
+      }
+    ],
+    "education": [
+      {
+        "id": "coding-tutor",
+        "name": "编程导师",
+        "kind": "expert",
+        "summary": "手把手带零基础到进阶的编程教练，用渐进练习与即时反馈把概念讲透。",
+        "description": "一位编程导师，擅长把抽象概念（指针、异步、递归、复杂度）拆成可理解的步骤，并用由易到难的练习巩固。它根据学员水平调整讲解深度，重视「先跑通再理解」，对错误给出针对性提示而非直接给答案，培养独立调试能力。",
+        "category": "education",
+        "tags": [
+          "teaching",
+          "programming",
+          "mentoring",
+          "exercises",
+          "debug"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-08",
+        "popularity": 70,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/coding-tutor 或 @提及后贴学习需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/education/coding-tutor/expert.md"
+      },
+      {
+        "id": "curriculum-designer",
+        "name": "课程设计师",
+        "kind": "expert",
+        "summary": "把知识体系拆成可交付的课程，覆盖学习目标、模块编排、评估与节奏设计。",
+        "description": "一位课程设计师，熟悉逆向设计（目标→评估→活动）与布鲁姆认知层级。它把一门主题拆成有逻辑递进的模块、单元与课时，定义清晰的学习目标与可观测的评估方式，并安排练习与项目节奏，让学员「学得会、用得上、留得住」。",
+        "category": "education",
+        "tags": [
+          "curriculum",
+          "instructional-design",
+          "learning",
+          "assessment",
+          "online-course"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-02",
+        "popularity": 64,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/curriculum-designer 或 @提及后贴课程需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/education/curriculum-designer/expert.md"
+      }
+    ],
+    "multimodal": [
+      {
+        "id": "image-genius",
+        "name": "图像生成专家",
+        "kind": "expert",
+        "summary": "把文字变成精准图像的提示词与流程专家，精通文生图、风格控制与批量出图。",
+        "description": "一位图像生成专家，熟悉主流文生图模型的提示词结构与控制手段（构图、光照、风格、负面词、参考图）。它把用户的模糊意图转成可复现的 prompt 与参数，并设计风格一致、可量产的出图流程，覆盖海报、插画、电商图与头像等场景。",
+        "category": "multimodal",
+        "tags": [
+          "image-generation",
+          "prompt-design",
+          "diffusion",
+          "art-direction",
+          "batch"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-14",
+        "popularity": 89,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/image-genius 或 @提及后贴出图需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/multimodal/image-genius/expert.md"
+      },
+      {
+        "id": "video-director",
+        "name": "视频导演",
+        "kind": "expert",
+        "summary": "从分镜到成片的视频操盘手，精通脚本、AI 生成、剪辑节奏与短视频爆款结构。",
+        "description": "一位视频导演，熟悉 Short/Reel 与中长视频的叙事结构与剪辑节奏。它把主题转成分镜脚本、口播稿与镜头表，并能规划 AI 生成（图/视频/配音）与实拍的混合流程，把控开场钩子、信息密度与结尾行动。它强调「前 3 秒决定完播」。",
+        "category": "multimodal",
+        "tags": [
+          "video",
+          "scripting",
+          "storyboard",
+          "editing",
+          "short-form"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-17",
+        "popularity": 82,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/video-director 或 @提及后贴视频需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/multimodal/video-director/expert.md"
+      }
+    ],
     "general": [
+      {
+        "id": "business-analyst",
+        "name": "业务分析师",
+        "kind": "expert",
+        "summary": "连接业务与方案的翻译官，精通流程梳理、需求建模与效益分析，让投入有据。",
+        "description": "一位业务分析师（BA），擅长用用例、流程图与数据把业务痛点转成可建设的方案。它做现状—目标差距分析、需求优先级（MoSCoW）与粗略效益/成本评估，帮团队在动手前先想清「值不值得做、做成什么样」。它重视干系人达成一致。",
+        "category": "general",
+        "tags": [
+          "business-analysis",
+          "process",
+          "requirements",
+          "modeling",
+          "roi"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-25",
+        "popularity": 71,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/business-analyst 或 @提及后贴分析需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/general/business-analyst/expert.md"
+      },
+      {
+        "id": "project-manager",
+        "name": "项目经理",
+        "kind": "expert",
+        "summary": "让项目按时交付的操盘手，精通排期、风险、跨团队协同与里程碑管理。",
+        "description": "一位项目经理，熟悉瀑布与敏捷（Scrum/Kanban），能把目标拆成可跟踪的任务、依赖与里程碑。它管理范围、进度、风险与干系人沟通，用看板与节奏会议保持团队对齐，并在延期前预警。它强调「可预测」胜过「忙」。",
+        "category": "general",
+        "tags": [
+          "project-management",
+          "agile",
+          "planning",
+          "risk",
+          "coordination"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-03",
+        "popularity": 73,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/project-manager 或 @提及后贴项目需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/general/project-manager/expert.md"
+      },
+      {
+        "id": "strategy-consultant",
+        "name": "战略顾问",
+        "kind": "expert",
+        "summary": "用框架看清方向与打法的顾问，精通市场、竞争与增长分析，输出可执行战略。",
+        "description": "一位战略顾问，熟悉 SWOT、波特五力、价值链与增长漏斗等框架。它把「我们要往哪走」这类大问题，拆成市场机会、竞争格局、自身优劣势与关键举措，给出有优先级、有里程碑、可纠偏的战略建议。它强调假设显性化与小幅验证。",
+        "category": "general",
+        "tags": [
+          "strategy",
+          "market",
+          "competition",
+          "growth",
+          "frameworks"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-18",
+        "popularity": 77,
+        "dsh_integration": {
+          "type": "prompt-only",
+          "profile": "web",
+          "entry": "@/strategy-consultant 或 @提及后贴战略需求",
+          "notes": "可作为系统提示手动引入；未来由 DSH 专家市场插件加载为 prompt-only 专家。"
+        },
+        "_path": "experts/general/strategy-consultant/expert.md"
+      },
       {
         "id": "product-manager",
         "name": "产品经理（需求分析）",
@@ -198,6 +736,654 @@
           "orchestration": "主理人顺序流转——产品经理(PRD) → 架构师(设计+任务分解) → 工程师(实现+全局自审) → QA(测试+智能路由判定)；任一环节发现问题回传上一角色修订，最多两轮。"
         },
         "_path": "experts/software-team/expert.md"
+      },
+      {
+        "id": "ai-research-team",
+        "name": "AI 研究团队",
+        "kind": "pack",
+        "summary": "由算法、数据与工程组成的 AI 攻坚小组，从问题定义到模型上线的端到端研究。",
+        "description": "一个 AI 研究专家团，覆盖研究选题、数据构建、模型训练与工程落地。主理人接收问题后分工：战略顾问定方向与假设，ML 工程师做实验与训练，数据分析师做评估与错误分析，后端架构师负责推理服务。适合从 0 到 1 的 AI 能力建设。",
+        "category": "team",
+        "tags": [
+          "ai",
+          "research",
+          "ml",
+          "nlp",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-18",
+        "popularity": 90,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/ai-research-team 后描述 AI 研究目标",
+          "members": [
+            "strategy-consultant",
+            "ml-engineer",
+            "data-analyst",
+            "backend-architect"
+          ],
+          "orchestration": "主理人先调度战略顾问定方向与关键假设 → ML 工程师设计实验与训练 → 数据分析师做评估与错误分析并回流 → 后端架构师把达标模型封装为推理服务；每轮以离线指标是否过线决定进入下一阶段。"
+        },
+        "_path": "experts/teams/ai-research-team/expert.md"
+      },
+      {
+        "id": "blockchain-builders",
+        "name": "区块链建造者",
+        "kind": "pack",
+        "summary": "链上应用的构建小队，覆盖合约安全、后端集成、交付门禁与架构。",
+        "description": "一个区块链专家团，整合合约与工程。主理人接收链上目标后分工：代码审查专家审合约安全，后端架构师做链下集成与索引，CI/CD 专家做审计门禁，合规官定合规边界。适合钱包、DApp 与资产类系统。",
+        "category": "team",
+        "tags": [
+          "blockchain",
+          "web3",
+          "smart-contract",
+          "security",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-12",
+        "popularity": 63,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/blockchain-builders 后描述链上目标",
+          "members": [
+            "backend-architect",
+            "code-reviewer",
+            "compliance-officer",
+            "ci-cd-expert"
+          ],
+          "orchestration": "主理人调度代码审查专家审合约安全与常见漏洞 → 后端架构师做链下集成与索引服务 → 合规官定合规边界 → CI/CD 专家把审计/测试做成门禁；输出安全清单+集成架构+门禁。"
+        },
+        "_path": "experts/teams/blockchain-builders/expert.md"
+      },
+      {
+        "id": "cloud-native-crew",
+        "name": "云原生船员",
+        "kind": "pack",
+        "summary": "Kubernetes 与云原生的交付小队，覆盖架构、流水线、可观测与成本治理。",
+        "description": "一个云原生专家团，整合架构、交付与运维。主理人接收云原生目标后分工：云架构师定拓扑与容灾，DevOps 专家写流水线，CI/CD 专家做发布门禁，后端架构师做服务拆分。适合容器化迁移与 K8s 平台建设。",
+        "category": "team",
+        "tags": [
+          "cloud-native",
+          "kubernetes",
+          "devops",
+          "platform",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-29",
+        "popularity": 75,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/cloud-native-crew 后描述云原生目标",
+          "members": [
+            "cloud-architect",
+            "devops-guru",
+            "ci-cd-expert",
+            "backend-architect"
+          ],
+          "orchestration": "主理人调度云架构师定拓扑与容灾 → DevOps 专家写 IaC 与集群 → CI/CD 专家做镜像构建与渐进发布 → 后端架构师按服务边界拆分；输出平台蓝图+流水线+运维手册。"
+        },
+        "_path": "experts/teams/cloud-native-crew/expert.md"
+      },
+      {
+        "id": "content-factory",
+        "name": "内容工厂",
+        "kind": "pack",
+        "summary": "图文视频量产的内容小队，覆盖技术写作、营销文案与多模态生成。",
+        "description": "一个内容生产专家团，整合文字与多模态。主理人接收内容目标后分工：技术写作专家写文档/白皮书，文案专家写营销与社媒，图像生成专家出配图，视频导演做短视频。适合内容矩阵与持续产出运营。",
+        "category": "team",
+        "tags": [
+          "content",
+          "writing",
+          "marketing",
+          "multimodal",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-12",
+        "popularity": 84,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/content-factory 后描述内容目标",
+          "members": [
+            "tech-writer",
+            "copywriter",
+            "image-genius",
+            "video-director"
+          ],
+          "orchestration": "主理人调度文案专家定选题与钩子 → 技术写作专家写长文/文档 → 图像生成专家出风格统一配图 → 视频导演做短视频分镜与生成；统一为内容日历与多渠道素材包。"
+        },
+        "_path": "experts/teams/content-factory/expert.md"
+      },
+      {
+        "id": "data-science-squad",
+        "name": "数据科学小组",
+        "kind": "pack",
+        "summary": "数据到决策的一站式小组，覆盖分析、建模、研究与体验验证的协作闭环。",
+        "description": "一个数据科学专家团，整合数据分析、机器学习、业务研究与用户体验。主理人接收分析/建模目标后分工：数据分析师做口径与看板，ML 工程师建模，业务分析师做价值论证，UX 研究员验证用户侧效果。适合需要用数据驱动产品与增长的团队。",
+        "category": "team",
+        "tags": [
+          "data-science",
+          "analytics",
+          "ml",
+          "insights",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-16",
+        "popularity": 85,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/data-science-squad 后描述数据/增长目标",
+          "members": [
+            "data-analyst",
+            "ml-engineer",
+            "business-analyst",
+            "ux-researcher"
+          ],
+          "orchestration": "主理人调度数据分析师定口径与看板 → ML 工程师建预测/分群模型 → 业务分析师做 ROI 与优先级论证 → UX 研究员验证用户侧体验；结论统一汇总为「数据→建议→验证」报告。"
+        },
+        "_path": "experts/teams/data-science-squad/expert.md"
+      },
+      {
+        "id": "design-studio",
+        "name": "设计工作室",
+        "kind": "pack",
+        "summary": "从研究到视觉的一体化设计小队，覆盖体验研究、UI 设计与文案表达。",
+        "description": "一个产品设计专家团，整合体验、视觉与文案。主理人接收设计目标后分工：UX 研究员做用户与可用性，UI 设计师出视觉系统与界面，文案专家写界面文案与引导，前端大师把关还原。适合产品 redesign 与设计体系建设。",
+        "category": "team",
+        "tags": [
+          "design",
+          "ux",
+          "ui",
+          "branding",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-06",
+        "popularity": 82,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/design-studio 后描述设计目标",
+          "members": [
+            "ux-researcher",
+            "ui-designer",
+            "copywriter",
+            "frontend-master"
+          ],
+          "orchestration": "主理人调度 UX 研究员做研究与信息架构 → UI 设计师出设计系统与平面 → 文案专家写界面与引导文案 → 前端大师把关还原度；多轮评审收敛为可交付设计稿+规范。"
+        },
+        "_path": "experts/teams/design-studio/expert.md"
+      },
+      {
+        "id": "devops-league",
+        "name": "DevOps 联盟",
+        "kind": "pack",
+        "summary": "交付与运维一体化的工程小队，覆盖流水线、容器、质量门禁与稳定性。",
+        "description": "一个 DevOps 专家团，整合交付自动化与工程质量。主理人接收目标后分工：DevOps 专家做基础设施与可观测，CI/CD 专家写流水线门禁，云架构师定成本与容灾，代码审查专家把质量关。适合研发效能提升与稳定性建设。",
+        "category": "team",
+        "tags": [
+          "devops",
+          "sre",
+          "cicd",
+          "reliability",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-18",
+        "popularity": 73,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/devops-league 后描述研发效能目标",
+          "members": [
+            "devops-guru",
+            "ci-cd-expert",
+            "cloud-architect",
+            "code-reviewer"
+          ],
+          "orchestration": "主理人调度 DevOps 专家建可观测与 IaC → CI/CD 专家做流水线门禁 → 云架构师定成本/容灾 → 代码审查专家把质量与安全风险左移；输出效能看板+门禁+稳定性预案。"
+        },
+        "_path": "experts/teams/devops-league/expert.md"
+      },
+      {
+        "id": "edtech-innovators",
+        "name": "教育科技创新者",
+        "kind": "pack",
+        "summary": "教育产品的构建小队，覆盖课程设计、编程辅导、用户体验与文案表达。",
+        "description": "一个教育科技专家团，整合教学与产品。主理人接收教育目标后分工：课程设计师定体系与目标，编程导师做讲解与练习，UX 研究员验学习体验，文案专家写引导与反馈。适合在线课程、学习工具与 AI 助教。",
+        "category": "team",
+        "tags": [
+          "edtech",
+          "education",
+          "curriculum",
+          "learning",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-05",
+        "popularity": 70,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/edtech-innovators 后描述教育产品目标",
+          "members": [
+            "coding-tutor",
+            "curriculum-designer",
+            "ux-researcher",
+            "copywriter"
+          ],
+          "orchestration": "主理人调度课程设计师定体系与目标 → 编程导师出讲解与练习 → UX 研究员验学习体验 → 文案专家写引导与反馈文案；输出课程蓝图+学习路径+体验报告。"
+        },
+        "_path": "experts/teams/edtech-innovators/expert.md"
+      },
+      {
+        "id": "enterprise-architects",
+        "name": "企业架构师组",
+        "kind": "pack",
+        "summary": "面向复杂组织的架构治理小队，覆盖全局架构、服务拆分、云与战略对齐。",
+        "description": "一个企业架构专家团，整合全局与技术。主理人接收架构治理目标后分工：架构师定全局蓝图与方法，后端架构师做服务与数据拆分，云架构师定基础设施与容灾，战略顾问对齐业务与 IT。适合中大型系统的架构评审与演进。",
+        "category": "team",
+        "tags": [
+          "enterprise",
+          "architecture",
+          "governance",
+          "strategy",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-08",
+        "popularity": 74,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/enterprise-architects 后描述架构治理目标",
+          "members": [
+            "architect",
+            "backend-architect",
+            "cloud-architect",
+            "strategy-consultant"
+          ],
+          "orchestration": "主理人调度战略顾问对齐业务与 IT 目标 → 架构师出企业蓝图与原则 → 后端架构师拆服务与数据 → 云架构师定基础设施与容灾；输出架构决策记录(ADR)+演进路线图。"
+        },
+        "_path": "experts/teams/enterprise-architects/expert.md"
+      },
+      {
+        "id": "fintech-brigade",
+        "name": "金融科技旅",
+        "kind": "pack",
+        "summary": "金融级系统的构建小队，覆盖合规、数据、风控与高可用后端。",
+        "description": "一个金融科技专家团，整合合规、数据与工程。主理人接收金融目标后分工：合规官定监管与数据合规，后端架构师做账户/交易与一致性，数据分析师做风控指标，业务分析师做产品论证。适合支付、理财与风控类系统。",
+        "category": "team",
+        "tags": [
+          "fintech",
+          "finance",
+          "compliance",
+          "risk",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-25",
+        "popularity": 72,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/fintech-brigade 后描述金融系统目标",
+          "members": [
+            "backend-architect",
+            "data-analyst",
+            "compliance-officer",
+            "business-analyst"
+          ],
+          "orchestration": "主理人调度合规官定监管与数据合规 → 后端架构师做账户/交易与一致性 → 数据分析师建风控指标 → 业务分析师做产品论证；输出合规清单+架构+风控看板。"
+        },
+        "_path": "experts/teams/fintech-brigade/expert.md"
+      },
+      {
+        "id": "fullstack-force",
+        "name": "全栈突击队",
+        "kind": "pack",
+        "summary": "前后端加质量的一体化交付小队，适合需要快速成型可运行产品的需求。",
+        "description": "一个全栈交付专家团，覆盖界面、服务端、质量与体验。主理人接收需求后分工：前端大师做界面与组件，后端架构师定 API 与数据，工程师实现，QA 工程师测试，UI 设计师把关视觉。强调「一个需求、一条流水线、一份交付」。",
+        "category": "team",
+        "tags": [
+          "fullstack",
+          "web",
+          "delivery",
+          "sdlc",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-13",
+        "popularity": 91,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/fullstack-force 后描述产品需求",
+          "members": [
+            "frontend-master",
+            "backend-architect",
+            "engineer",
+            "qa-engineer",
+            "ui-designer"
+          ],
+          "orchestration": "主理人调度 UI 设计师定视觉规范 → 前端大师与后端架构师并行（界面/API 契约）→ 工程师批量实现并自审 → QA 工程师测试与路由判定；任一环节问题回上一角色，最多两轮。"
+        },
+        "_path": "experts/teams/fullstack-force/expert.md"
+      },
+      {
+        "id": "game-dev-studio",
+        "name": "游戏开发工作室",
+        "kind": "pack",
+        "summary": "游戏从原型到上线的构建小队，覆盖玩法、工程、美术与视频传播。",
+        "description": "一个游戏开发专家团，整合玩法与工程。主理人接收游戏目标后分工：前端大师做客户端与 UI，后端架构师做匹配/存档服务，图像生成专家出美术，视频导演做宣发。适合休闲游戏、小游戏与独立游戏原型。",
+        "category": "team",
+        "tags": [
+          "game",
+          "gameplay",
+          "client",
+          "art",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-01",
+        "popularity": 76,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/game-dev-studio 后描述游戏目标",
+          "members": [
+            "frontend-master",
+            "backend-architect",
+            "image-genius",
+            "video-director",
+            "ui-designer"
+          ],
+          "orchestration": "主理人调度 UI 设计师定界面与风格 → 前端大师做客户端与玩法 → 后端架构师做存档/匹配 → 图像生成专家出美术 → 视频导演做宣发；多轮迭代收敛为可玩原型+上线素材。"
+        },
+        "_path": "experts/teams/game-dev-studio/expert.md"
+      },
+      {
+        "id": "healthtech-pioneers",
+        "name": "健康科技先锋",
+        "kind": "pack",
+        "summary": "医疗健康场景的构建小队，覆盖合规、AI 辅助、体验与高可靠后端。",
+        "description": "一个健康科技专家团，整合合规、智能与工程。主理人接收健康目标后分工：合规官定医疗数据与隐私边界，后端架构师做数据安全与服务，ML 工程师做辅助模型，UX 研究员保易感人群可用性。适合问诊、健康管理与医疗器械软件。",
+        "category": "team",
+        "tags": [
+          "healthtech",
+          "medical",
+          "compliance",
+          "ai",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-20",
+        "popularity": 67,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/healthtech-pioneers 后描述健康科技目标",
+          "members": [
+            "backend-architect",
+            "ml-engineer",
+            "ux-researcher",
+            "compliance-officer"
+          ],
+          "orchestration": "主理人调度合规官定健康数据边界 → 后端架构师做安全存储与审计 → ML 工程师做辅助分析模型 → UX 研究员保老年/患者可用性；输出合规清单+架构+体验报告。"
+        },
+        "_path": "experts/teams/healthtech-pioneers/expert.md"
+      },
+      {
+        "id": "iot-makers",
+        "name": "IoT 创客组",
+        "kind": "pack",
+        "summary": "端边云一体的物联小队，覆盖设备、边缘、云架构与智能模型。",
+        "description": "一个物联网专家团，整合端、边、云。主理人接收 IoT 目标后分工：后端架构师定设备接入与消息，DevOps 专家做边缘与云运维，云架构师定存储与容灾，ML 工程师做端侧/云端推理。适合智能家居、工业传感与监控。",
+        "category": "team",
+        "tags": [
+          "iot",
+          "edge",
+          "devices",
+          "cloud",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-15",
+        "popularity": 65,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/iot-makers 后描述物联网目标",
+          "members": [
+            "backend-architect",
+            "devops-guru",
+            "cloud-architect",
+            "ml-engineer"
+          ],
+          "orchestration": "主理人调度后端架构师定设备接入与消息协议 → DevOps 专家做边缘节点运维 → 云架构师定存储/容灾 → ML 工程师做推理；输出接入方案+拓扑+推理部署。"
+        },
+        "_path": "experts/teams/iot-makers/expert.md"
+      },
+      {
+        "id": "mobile-masters",
+        "name": "移动端大师组",
+        "kind": "pack",
+        "summary": "跨平台移动交付小队，覆盖 iOS/Android 与小程序的前端、服务与质量。",
+        "description": "一个移动端专家团，整合界面、服务与体验。主理人接收移动需求后分工：前端大师做跨端界面与组件，后端架构师定移动 API 与推送，UI 设计师保视觉一致，QA 工程师做真机与兼容性测试。适合 App / 小程序从设计到上架的协作。",
+        "category": "team",
+        "tags": [
+          "mobile",
+          "ios",
+          "android",
+          "cross-platform",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-07",
+        "popularity": 78,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/mobile-masters 后描述移动端需求",
+          "members": [
+            "frontend-master",
+            "backend-architect",
+            "ui-designer",
+            "qa-engineer"
+          ],
+          "orchestration": "主理人调度 UI 设计师定移动视觉规范 → 前端大师实现跨端界面 → 后端架构师定移动 API/推送 → QA 工程师做机型兼容与真机测试；问题回对应角色，最多两轮。"
+        },
+        "_path": "experts/teams/mobile-masters/expert.md"
+      },
+      {
+        "id": "open-source-collective",
+        "name": "开源共同体",
+        "kind": "pack",
+        "summary": "开源项目孵化小队，覆盖代码质量、文档、协作流程与社区运营。",
+        "description": "一个开源协作专家团，整合工程与传播。主理人接收开源目标后分工：代码审查专家保质量与规范，技术写作专家写文档与 README，前端大师做官网/示例，DevOps 专家建 CI 与发布。适合把内部能力开源或运营社区项目。",
+        "category": "team",
+        "tags": [
+          "open-source",
+          "community",
+          "docs",
+          "collaboration",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-06-28",
+        "popularity": 66,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/open-source-collective 后描述开源目标",
+          "members": [
+            "code-reviewer",
+            "tech-writer",
+            "frontend-master",
+            "devops-guru"
+          ],
+          "orchestration": "主理人调度代码审查专家定贡献规范与 Review → 技术写作专家写文档/README/CONTRIBUTING → 前端大师做项目官网与示例 → DevOps 专家建 CI 与自动发布；输出可开源的项目包+社区手册。"
+        },
+        "_path": "experts/teams/open-source-collective/expert.md"
+      },
+      {
+        "id": "qa-legion",
+        "name": "QA 军团",
+        "kind": "pack",
+        "summary": "质量保障攻坚小队，覆盖代码审查、测试策略、可用性与交付稳定性。",
+        "description": "一个质量保障专家团，整合静态审查与动态验证。主理人接收质量目标后分工：代码审查专家做静态审计，QA 工程师写测试用例与路由判定，DevOps 专家做环境一致性，UX 研究员做可用性验收。适合上线前的质量门禁建设。",
+        "category": "team",
+        "tags": [
+          "qa",
+          "testing",
+          "quality",
+          "reliability",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-22",
+        "popularity": 69,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/qa-legion 后描述质量目标",
+          "members": [
+            "qa-engineer",
+            "code-reviewer",
+            "devops-guru",
+            "ux-researcher"
+          ],
+          "orchestration": "主理人调度代码审查专家做静态审计 → QA 工程师写用例与智能路由 → DevOps 专家保环境一致 → UX 研究员做可用性验收；输出缺陷清单+测试报告+验收结论。"
+        },
+        "_path": "experts/teams/qa-legion/expert.md"
+      },
+      {
+        "id": "security-taskforce",
+        "name": "安全特遣队",
+        "kind": "pack",
+        "summary": "把安全左移的攻坚小组，覆盖代码审计、合规、流水线门禁与架构风险。",
+        "description": "一个安全专家团，整合代码审查、合规与交付安全。主理人接收安全目标后分工：代码审查专家做漏洞审计，合规官定制度与 checklist，CI/CD 专家把扫描做成门禁，后端架构师加固架构。适合上线前安全体检与合规准备。",
+        "category": "team",
+        "tags": [
+          "security",
+          "audit",
+          "compliance",
+          "devsecops",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-08-11",
+        "popularity": 80,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/security-taskforce 后描述安全/合规目标",
+          "members": [
+            "code-reviewer",
+            "compliance-officer",
+            "ci-cd-expert",
+            "backend-architect"
+          ],
+          "orchestration": "主理人调度代码审查专家做漏洞审计 → 合规官出制度与自查清单 → CI/CD 专家把 SAST/依赖扫描嵌入门禁 → 后端架构师按风险加固架构；输出「风险清单+整改+门禁」交付。"
+        },
+        "_path": "experts/teams/security-taskforce/expert.md"
+      },
+      {
+        "id": "startup-accelerator",
+        "name": "创业加速器",
+        "kind": "pack",
+        "summary": "从 0 到 1 的创业陪跑小队，覆盖战略、产品、业务分析与项目落地。",
+        "description": "一个创业陪跑专家团，整合方向与执行。主理人接收创业目标后分工：战略顾问定方向与市场，产品经理出 PRD，业务分析师做优先级与 ROI，项目经理排期推进。适合早期团队把想法变成可验证的 MVP。",
+        "category": "team",
+        "tags": [
+          "startup",
+          "strategy",
+          "product",
+          "execution",
+          "team"
+        ],
+        "author": "awesome-dsh-experts",
+        "homepage": "https://github.com/fuchao2pku/awesome-dsh-experts",
+        "license": "MIT",
+        "version": "0.1.0",
+        "created": "2026-07-12",
+        "popularity": 79,
+        "dsh_integration": {
+          "type": "skill",
+          "profile": "web",
+          "entry": "@/startup-accelerator 后描述创业目标",
+          "members": [
+            "product-manager",
+            "strategy-consultant",
+            "business-analyst",
+            "project-manager"
+          ],
+          "orchestration": "主理人调度战略顾问定方向与假设 → 产品经理出 PRD → 业务分析师排优先级与 ROI → 项目经理拆里程碑推进；每两周复盘假设是否成立，决定继续或转向。"
+        },
+        "_path": "experts/teams/startup-accelerator/expert.md"
       }
     ],
     "uncategorized": []
