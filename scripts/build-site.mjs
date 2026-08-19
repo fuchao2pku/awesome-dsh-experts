@@ -225,6 +225,32 @@ function main() {
   const expertCats = usedCats.filter((c) => c !== "team" && c !== "uncategorized");
   const packCats = usedCats.filter((c) => c === "team");
 
+  /* ----- 使用指南 banner（集中说明如何在 DSH 中引入专家，不在详情页散落 / 文档） ----- */
+  const usageBanner = `      <section class="usage-banner">
+        <div class="usage-inner">
+          <div class="usage-copy">
+            <span class="usage-kicker">如何用在 DSH</span>
+            <h2>在 DSH 中一键使用这些专家与专家团</h2>
+            <p class="usage-lead">这些专家 / 专家团通过 <a href="${PLUGIN}" target="_blank" rel="noopener">dsh-experts</a> 插件接入你的 DSH Web 界面（设置页「专家市场」）。安装后，浏览任意专家，点击「引入对话」即可把提示注入当前聊天框——无需手动复制。</p>
+            <ol class="usage-steps">
+              <li><span class="step-n">1</span><div><b>安装插件</b><code>dsh plugin --profile web add https://github.com/fuchao2pku/dsh-experts.git</code></div></li>
+              <li><span class="step-n">2</span><div>打开 <b>设置 → 专家市场</b>，搜索并打开任意专家 / 专家团详情</div></li>
+              <li><span class="step-n">3</span><div>点 <b>引入对话</b>，或直接在聊天框输入 <code>@expert &lt;id&gt;</code> 启用</div></li>
+            </ol>
+          </div>
+          <div class="usage-aside">
+            <div class="usage-card">
+              <div class="usage-card-title">安装命令</div>
+              <pre><code>dsh plugin --profile web add \\
+  https://github.com/fuchao2pku/dsh-experts.git</code></pre>
+              <div class="usage-card-title">调用示例</div>
+              <pre><code>@expert frontend-master
+@expert software-team</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>`;
+
   /* ----- 精选场景 ----- */
   const scenarioCards = usedCats.map((cat) => {
     const list = entries.filter((e) => e.category === cat);
@@ -276,7 +302,8 @@ ${cards}
       </div>
       <div class="empty-state" id="empty" style="display:none">没有匹配的专家，换个关键词或分类试试。</div>`;
 
-  const indexBody = `${scenarios}
+  const indexBody = `${usageBanner}
+${scenarios}
 ${tabBar}
 ${filterBar}
 ${cardGrid}`;
