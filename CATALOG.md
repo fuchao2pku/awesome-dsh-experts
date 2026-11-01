@@ -1,6 +1,6 @@
 # Awesome DSH Experts — 目录 (CATALOG)
 
-> 自动生成于 2026-10-31T08:06:01.213Z（来源：local+remote）。请勿手改；由 `scripts/scan.mjs` 生成。
+> 自动生成于 2026-11-01T08:51:43.249Z（来源：local+remote）。请勿手改；由 `scripts/scan.mjs` 生成。
 
 共 **45** 个专家 / 专家团。
 
